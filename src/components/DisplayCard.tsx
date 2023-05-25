@@ -10,16 +10,15 @@ const DisplayCard = ({ anime }: Props) => {
       borderRadius='10px'
       overflow='hidden'
       width={'100%'}
-      height={{ base: '249px', md: '265px' }}
+      height={{ base: '249px', md: '315px' }}
     >
       <Image
         src={anime.coverImage.large}
         minHeight={'200px'}
-        maxHeight={'50%'}
-        // maxHeight={{ sm: '120px', md: '200px', lg: '235px' }}
+        maxHeight={'80%'}
       ></Image>
       <CardBody padding={'6px'}>
-        <Text noOfLines={2} fontSize={{ base: 'xs' }}>
+        <Text noOfLines={2} fontSize={{ base: 'xs', md: 'md' }}>
           {anime.title.userPreferred}
         </Text>
       </CardBody>
