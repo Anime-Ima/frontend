@@ -20,7 +20,7 @@ interface PageInfo {
     lastPage: number;
     hasNextPage: boolean;
 }
-interface Media {
+export interface Media {
     id: number;
     title: Title;
     coverImage: CoverImage;

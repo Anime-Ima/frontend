@@ -1,5 +1,6 @@
-import { Image, Box, Text } from '@chakra-ui/react';
+import { Image, Box, Text, SimpleGrid } from '@chakra-ui/react';
 import getAnime from '../hooks/getAnime';
+import DisplayCard from './DisplayCard';
 
 const AnimeGrid = () => {
   const { resData, error, isLoading } = getAnime();
@@ -15,14 +16,15 @@ const AnimeGrid = () => {
   return (
     <>
       {resData && resData && resData.media && (
-        <>
+        <SimpleGrid
+          columns={{ sm: 2, md: 4, lg: 5 }}
+          spacing={{ sm: 2, md: 5, lg: 10 }}
+          padding={{ sm: '10px', md: '50px', lg: '100px' }}
+        >
           {resData.media.map((anime) => (
-            <Box padding='20px' key={anime.id}>
-              <Image src={anime.coverImage.large} boxSize='300px' />
-              <h1>{anime.title.userPreferred}</h1>
-            </Box>
+            <DisplayCard key={anime.id} anime={anime} />
           ))}
-        </>
+        </SimpleGrid>
       )}
     </>
   );
