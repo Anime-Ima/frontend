@@ -17,9 +17,12 @@ const AnimeGrid = () => {
     <>
       {resData && resData && resData.media && (
         <SimpleGrid
-          columns={{ sm: 2, md: 4, lg: 5 }}
-          spacing={{ sm: 2, md: 5, lg: 10 }}
-          padding={{ sm: '10px', md: '50px', lg: '100px' }}
+          spacingY={{ base: 5, sm: 8, md: 4 }}
+          spacingX={{ base: 3, sm: 5, md: 4 }}
+          //   columns={{ base: 2, sm: 3, md: 4 }}
+          minChildWidth={'144px'}
+          padding={{ base: '50px', lg: '0px 50px, 0px, 0px' }}
+          //   padding={{ sm: '40px', md: '50px', lg: '100px' }}
         >
           {resData.media.map((anime) => (
             <DisplayCard key={anime.id} anime={anime} />
