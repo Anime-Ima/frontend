@@ -1,10 +1,10 @@
-import { Image, Box, Text, SimpleGrid, Card } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import getAnime from '../hooks/getAnime';
 import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
 
 const AnimeGrid = () => {
-  const { resData, error, isLoading } = getAnime();
+  const { animeList, error, isLoading } = getAnime();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -16,7 +16,7 @@ const AnimeGrid = () => {
 
   return (
     <>
-      {resData && resData && resData.media && (
+      {animeList && animeList && animeList && (
         <SimpleGrid
           spacingY={{ base: 5, sm: 8, md: 4 }}
           spacingX={{ base: 3, sm: 5, md: 4 }}
@@ -27,15 +27,15 @@ const AnimeGrid = () => {
           padding={{ base: '20px' }}
           pr={{ lg: '100px' }}
         >
-          {resData.media.map((anime) => (
-            <>
-              <CardPopover anime={anime}>
+          {animeList.map((anime) => {
+            return (
+              <CardPopover key={+anime.id} anime={anime}>
                 <div>
-                  <DisplayCard key={anime.id} anime={anime} />
+                  <DisplayCard anime={anime} />
                 </div>
               </CardPopover>
-            </>
-          ))}
+            );
+          })}
         </SimpleGrid>
       )}
     </>

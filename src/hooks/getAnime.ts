@@ -79,43 +79,69 @@ interface Node {
     id: number;
     name: string;
 }
-
 const getAnime = () => {
-
-    const [resData, setResData] = useState<Page>();
+    const [animeList, setAnimeList] = useState<Media[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasNextPage, setHasNextPage] = useState<PageInfo['hasNextPage']>(true);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
   
+    // this will set the current page to the next if it has one, then the query will run again
+    const handleScroll = () => {
+        if (
+          window.innerHeight + document.documentElement.scrollTop + 1 >=
+          document.documentElement.scrollHeight
+        ) {
+          if (hasNextPage) {
+            setCurrentPage((prevPage) => prevPage + 1);
+          }
+        }
+      };
+  
     useEffect(() => {
-
-        const controller = new AbortController()
-
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+  
+    useEffect(() => {
+        const controller = new AbortController();
+      
         apiClient
-        .post<FetchResponse>('/', {
+          .post<FetchResponse>('/', {
             signal: controller.signal,
             query: QUERY_ANIME,
             variables: {
-            page: 1,
-            season: 'SUMMER',
-            seasonYear: 2023,
-            type: 'ANIME',
+              page: currentPage,
+              season: 'SUMMER',
+              seasonYear: 2023,
+              type: 'ANIME',
             },
-        })
-        .then((res) => {
-            setResData(res.data.data.Page);
+          })
+          .then((res) => {
+      
+            if (animeList.length === 0) {
+              setAnimeList(res.data.data.Page.media);
+            } else {
+              setAnimeList((prevAnimeList) => [...prevAnimeList, ...res.data.data.Page.media]);
+            }
+      
+            setHasNextPage(res.data.data.Page.pageInfo.hasNextPage);
             setIsLoading(false);
-        })
-        .catch((err) => {
+          })
+          .catch((err) => {
             if (err instanceof CanceledError) return;
             setError(err.message);
             setIsLoading(false);
-        });
-
-        return controller.abort();
-    }, []);
-   
-    return {resData, error, isLoading}
-
-}
-
-export default getAnime; 
+          });
+      
+        return () => {
+          controller.abort();
+        };
+      }, [currentPage]);
+  
+    return { animeList, error, isLoading };
+  };
+  
+  export default getAnime;

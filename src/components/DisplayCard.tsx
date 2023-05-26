@@ -14,7 +14,7 @@ const DisplayCard = ({ anime }: Props) => {
       <Image
         src={anime.coverImage.large}
         minHeight={'200px'}
-        maxHeight={'80%'}
+        height={'80%'}
       ></Image>
       <CardBody padding={'6px'}>
         <Text noOfLines={2} fontSize={{ base: 'xs', md: 'md' }}>
