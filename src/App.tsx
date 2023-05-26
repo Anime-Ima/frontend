@@ -7,8 +7,8 @@ function App() {
     <div>
       <Grid
         templateAreas={{
-          base: `"nav" "main"`,
-          lg: `"nav nav nav" "aside main main"`,
+          base: `"nav" "main" "footer"`,
+          lg: `"nav nav nav" "aside main main" "footer footer footer"`,
         }}
       >
         <GridItem area={'nav'}>
@@ -20,6 +20,7 @@ function App() {
         <GridItem area={'main'}>
           <AnimeGrid />
         </GridItem>
+        <GridItem height={'300px'} area={'footer'}></GridItem>
       </Grid>
     </div>
   );

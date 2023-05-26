@@ -86,18 +86,22 @@ const getAnime = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
   
-    // this will set the current page to the next if it has one, then the query will run again
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    
+    // Navigate to the next page if it exists, and subsequently execute the query again once scrolled to the bottom of avaibale data.
     const handleScroll = () => {
-        if (
-          window.innerHeight + document.documentElement.scrollTop + 1 >=
-          document.documentElement.scrollHeight
-        ) {
-          if (hasNextPage) {
-            setCurrentPage((prevPage) => prevPage + 1);
-          }
-        }
-      };
+      const isScrolledToBottom =
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.scrollHeight - 100;
   
+      if (isScrolledToBottom && hasNextPage) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          setCurrentPage((prevPage) => prevPage + 1);
+        }, 200);
+      }
+    };
+      
     useEffect(() => {
       window.addEventListener('scroll', handleScroll);
       return () => {

@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@chakra-ui/react';
+import { SimpleGrid, Center } from '@chakra-ui/react';
 import getAnime from '../hooks/getAnime';
 import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
@@ -7,11 +7,11 @@ const AnimeGrid = () => {
   const { animeList, error, isLoading } = getAnime();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Center>Loading...</Center>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Center>Error: {error}</Center>;
   }
 
   return (
