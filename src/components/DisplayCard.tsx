@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image, Text } from '@chakra-ui/react';
+import { Card, CardBody, Image, Text } from '@chakra-ui/react';
 import { Media } from '../hooks/getAnime';
 
 interface Props {
@@ -9,7 +9,6 @@ const DisplayCard = ({ anime }: Props) => {
     <Card
       borderRadius='10px'
       overflow='hidden'
-      width={'100%'}
       height={{ base: '249px', md: '315px' }}
     >
       <Image
