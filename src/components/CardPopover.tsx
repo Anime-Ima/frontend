@@ -1,15 +1,11 @@
 import {
   Popover,
   PopoverTrigger,
-  PopoverHeader,
   PopoverContent,
   PopoverArrow,
-  PopoverCloseButton,
   PopoverBody,
-  Badge,
   Text,
   Tag,
-  PopoverFooter,
   Heading,
 } from '@chakra-ui/react';
 import { Media } from '../hooks/getAnime';
@@ -30,6 +26,7 @@ const CardPopover = ({ children, anime }: Props) => {
       return format;
     }
   };
+
   return (
     <Popover trigger='hover' gutter={20} placement={'right'}>
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -56,11 +53,10 @@ const CardPopover = ({ children, anime }: Props) => {
               })}
             </Text>
             <Text mb={'10px'} fontSize='sm'>
-              {/* {anime.format.charAt(0).toUpperCase() +
-                anime.format.slice(1).toLowerCase()} */}
               {Format(anime.format)}
             </Text>
             <Text
+              noOfLines={15}
               fontSize='sm'
               mb={'10px'}
               dangerouslySetInnerHTML={{ __html: anime.description }}
