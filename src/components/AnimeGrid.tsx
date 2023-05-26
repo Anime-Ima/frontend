@@ -16,28 +16,27 @@ const AnimeGrid = () => {
 
   return (
     <>
-      {animeList && animeList && animeList && (
-        <SimpleGrid
-          spacingY={{ base: 5, sm: 8, md: 4 }}
-          spacingX={{ base: 3, sm: 5, md: 4 }}
-          minChildWidth={{
-            base: '110px',
-            sm: '186px',
-          }}
-          padding={{ base: '20px' }}
-          pr={{ lg: '100px' }}
-        >
-          {animeList.map((anime) => {
+      <SimpleGrid
+        spacingY={{ base: 5, sm: 8, md: 4 }}
+        spacingX={{ base: 3, sm: 5, md: 4 }}
+        minChildWidth={{
+          base: '110px',
+          sm: '186px',
+        }}
+        padding={{ base: '20px' }}
+        pr={{ lg: '100px' }}
+      >
+        {animeList &&
+          animeList.map((anime) => {
             return (
               <CardPopover key={+anime.id} anime={anime}>
                 <div>
-                  <DisplayCard anime={anime} />
+                  <DisplayCard key={+anime.id} anime={anime} />
                 </div>
               </CardPopover>
             );
           })}
-        </SimpleGrid>
-      )}
+      </SimpleGrid>
     </>
   );
 };

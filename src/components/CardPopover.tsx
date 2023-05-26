@@ -9,7 +9,6 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { Media } from '../hooks/getAnime';
-import { Ref } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -17,33 +16,52 @@ interface Props {
 }
 
 const CardPopover = ({ children, anime }: Props) => {
+  // format types
+  // TV, TV_SHORT, MOVIE, SPECIAL, OVA, ONA, MUSIC, MANGA, NOVEL, ONE_SHOT
   const Format = (format: string) => {
-    if (format === 'MOVIE') {
-      return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
-    }
-    if (format === 'TV') {
-      return format + ' Show';
-    } else {
-      return format;
+    switch (format) {
+      case 'ONA':
+      case 'OVA':
+        return format;
+      case 'TV_SHORT':
+        const formatted = format.split('_');
+        return (
+          formatted[0] +
+          ' ' +
+          formatted[1].charAt(0).toUpperCase() +
+          formatted[1].slice(1).toLowerCase()
+        );
+      case 'ONE_SHOT':
+        return 'One Shot';
+      case 'TV':
+        return format + ' Show';
+      default:
+        return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
     }
   };
 
   return (
     <div>
-      <Popover trigger='hover' gutter={20} placement={'right'}>
+      <Popover
+        closeDelay={0}
+        isLazy={true}
+        trigger='hover'
+        gutter={20}
+        placement={'right'}
+      >
         <PopoverTrigger>{children}</PopoverTrigger>
 
         <PopoverContent>
           <PopoverArrow />
 
           <PopoverBody>
-            <>
-              <Heading as='h2' size='md'>
-                {anime.season.charAt(0).toUpperCase() +
-                  anime.season.slice(1).toLowerCase() +
-                  ' ' +
-                  anime.seasonYear}
-              </Heading>
+            <Heading as='h2' size='md'>
+              {anime.season.charAt(0).toUpperCase() +
+                anime.season.slice(1).toLowerCase() +
+                ' ' +
+                anime.seasonYear}
+            </Heading>
+            {anime.studios.edges && (
               <Text
                 mb={'6px'}
                 as='b'
@@ -54,16 +72,25 @@ const CardPopover = ({ children, anime }: Props) => {
                   return `${edge.node.name}`;
                 })}
               </Text>
+            )}
+
+            {anime.format && (
               <Text mb={'10px'} fontSize='sm'>
                 {Format(anime.format)}
               </Text>
+            )}
+
+            {anime.description && (
               <Text
                 noOfLines={15}
                 fontSize='sm'
                 mb={'10px'}
                 dangerouslySetInnerHTML={{ __html: anime.description }}
               />
-              {anime.genres?.map((genre) => (
+            )}
+
+            {anime.genres &&
+              anime.genres?.map((genre) => (
                 <Tag
                   textTransform={'lowercase'}
                   bg={`${anime.coverImage.color}`}
@@ -72,10 +99,9 @@ const CardPopover = ({ children, anime }: Props) => {
                   margin={'5px'}
                   key={genre}
                 >
-                  <Text mixBlendMode={'difference'}>{genre}</Text>
+                  <Text color={'white'}>{genre}</Text>
                 </Tag>
               ))}
-            </>
           </PopoverBody>
         </PopoverContent>
       </Popover>

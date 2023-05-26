@@ -1,4 +1,4 @@
-import { Card, CardBody, Image, Text } from '@chakra-ui/react';
+import { Card, CardBody, Image, Text, Center, Box } from '@chakra-ui/react';
 import { Media } from '../hooks/getAnime';
 
 interface Props {
@@ -11,15 +11,30 @@ const DisplayCard = ({ anime }: Props) => {
       overflow='hidden'
       height={{ base: '249px', md: '315px' }}
     >
-      <Image
-        src={anime.coverImage.large}
-        minHeight={'200px'}
-        height={'80%'}
-      ></Image>
+      {anime.coverImage.large ? (
+        <Image
+          src={anime.coverImage.large}
+          minHeight={'200px'}
+          height={'80%'}
+        ></Image>
+      ) : (
+        <Center
+          minHeight={'200px'}
+          height={'80%'}
+          bg={`${anime.coverImage.color}`}
+        >
+          Image not available.
+        </Center>
+      )}
+
       <CardBody padding={'6px'}>
-        <Text noOfLines={2} fontSize={{ base: 'xs', md: 'md' }}>
-          {anime.title.userPreferred}
-        </Text>
+        {anime.title.userPreferred ? (
+          <Text noOfLines={2} fontSize={{ base: 'xs', md: 'md' }}>
+            {anime.title.userPreferred}
+          </Text>
+        ) : (
+          <Box>Missing title.</Box>
+        )}
       </CardBody>
     </Card>
   );
