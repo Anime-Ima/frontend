@@ -24,15 +24,22 @@ const CardPopover = ({ children, anime }: Props) => {
       case 'OVA':
         return format;
       case 'TV_SHORT':
-        const formatted = format.split('_');
+        const formattedShort = format.split('_');
         return (
-          formatted[0] +
+          formattedShort[0] +
           ' ' +
-          formatted[1].charAt(0).toUpperCase() +
-          formatted[1].slice(1).toLowerCase()
+          formattedShort[1].charAt(0).toUpperCase() +
+          formattedShort[1].slice(1).toLowerCase()
         );
       case 'ONE_SHOT':
-        return 'One Shot';
+        const formattedShot = format.split('_');
+        return (
+          formattedShot[0].charAt(0).toUpperCase() +
+          formattedShot[0].slice(1).toLowerCase() +
+          ' ' +
+          formattedShot[1].charAt(0).toUpperCase() +
+          formattedShot[1].slice(1).toLowerCase()
+        );
       case 'TV':
         return format + ' Show';
       default:
