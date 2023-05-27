@@ -106,9 +106,7 @@ const CardPopover = ({ children, anime }: Props) => {
                   margin={'5px'}
                   key={genre}
                 >
-                  <Text as='b' color='black'>
-                    {genre}
-                  </Text>
+                  <Text color='black'>{genre}</Text>
                 </Tag>
               ))}
           </PopoverBody>
