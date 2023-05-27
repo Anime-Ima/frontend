@@ -62,7 +62,7 @@ const CardPopover = ({ children, anime }: Props) => {
           <PopoverArrow />
 
           <PopoverBody>
-            <Heading as='h2' size='md' mb={'10px'}>
+            <Heading as='h2' size='md'>
               {anime.season.charAt(0).toUpperCase() +
                 anime.season.slice(1).toLowerCase() +
                 ' ' +
@@ -100,13 +100,15 @@ const CardPopover = ({ children, anime }: Props) => {
               anime.genres?.map((genre) => (
                 <Tag
                   textTransform={'lowercase'}
-                  bg={`${anime.coverImage.color}`}
+                  bg={anime.coverImage.color || '#D3E7F3'}
                   mb={'100px'}
                   padding={'5px'}
                   margin={'5px'}
                   key={genre}
                 >
-                  <Text color={'white'}>{genre}</Text>
+                  <Text as='b' color='black'>
+                    {genre}
+                  </Text>
                 </Tag>
               ))}
           </PopoverBody>
