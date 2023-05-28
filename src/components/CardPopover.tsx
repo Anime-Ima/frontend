@@ -8,7 +8,6 @@ import {
   Tag,
   Heading,
 } from '@chakra-ui/react';
-import { Media } from '../hooks/getAnime';
 
 interface Props {
   children: React.ReactNode;

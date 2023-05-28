@@ -1,5 +1,4 @@
 import { Card, CardBody, Image, Text, Center, Box } from '@chakra-ui/react';
-import { Media } from '../hooks/getAnime';
 
 interface Props {
   anime: Media;
