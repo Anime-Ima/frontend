@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { QUERY_ANIME } from "../utils/queries";
 
-
 const getAnime = () => {
     const [animeList, setAnimeList] = useState<Media[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasNextPage, setHasNextPage] = useState<PageInfo['hasNextPage']>(true);
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
   
     let scrollTimeout: ReturnType<typeof setTimeout>;
     
@@ -36,6 +35,8 @@ const getAnime = () => {
   
     useEffect(() => {
         const controller = new AbortController();
+
+        setIsLoading(true);
       
         apiClient
           .post<FetchResponse>('/', {
@@ -69,6 +70,10 @@ const getAnime = () => {
           controller.abort();
         };
       }, [currentPage]);
+
+      useEffect(() => {
+        console.log(isLoading); // Log the updated value of isLoading
+      }, [isLoading]);
   
     return { animeList, error, isLoading };
   };

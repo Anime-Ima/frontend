@@ -3,6 +3,7 @@ import { Card, CardBody, Image, Text, Center, Box } from '@chakra-ui/react';
 interface Props {
   anime: Media;
 }
+
 const DisplayCard = ({ anime }: Props) => {
   return (
     <Card
