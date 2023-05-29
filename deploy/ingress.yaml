@@ -1,14 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: animeima-ui-ingress
+  name: animeima-ui
   namespace: animeima
   labels:
     app: animeima-ui
   annotations:
     description: animeima-ui ingress
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - www.animeima.com
+    - animeima.com
+    secretName: animeima-tls
   rules:
   - host: www.animeima.com
     http:
@@ -17,6 +23,16 @@ spec:
         path: "/"
         backend:
           service:
-            name: animeima-ui-service
+            name: animeima-ui
+            port:
+              number: 80
+  - host: animeima.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: animeima-ui
             port:
               number: 80

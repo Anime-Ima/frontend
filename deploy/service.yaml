@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: animeima-ui-service
+  name: animeima-ui
   namespace: animeima
   labels:
     app: animeima-ui
