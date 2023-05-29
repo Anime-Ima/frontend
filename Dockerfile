@@ -1,12 +1,13 @@
-FROM node:18-alpine3.17 as build
+# Build stage
+FROM node:18-alpine3.17 AS build
 WORKDIR /app
+COPY package*.json /app/
+RUN npm ci
 COPY . /app
-RUN npm install
-RUN npm run build
+RUN npm run build && rm -rf node_modules
 
-FROM ubuntu
-RUN apt-get update
-RUN apt-get install nginx -y
-COPY --from=build /app/dist /var/www/html/
+# Production stage
+FROM nginx:1.25-alpine
+COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
