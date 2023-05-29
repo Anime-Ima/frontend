@@ -4,9 +4,11 @@ import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
 import DisplayCardSkeleton from './DisplayCardSkeleton';
 
+// interface AnimeGridProps {}
+
 const AnimeGrid = () => {
   const { animeList, error, isLoading } = getAnime();
-  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
     <>
@@ -22,10 +24,6 @@ const AnimeGrid = () => {
         pr={{ lg: '100px' }}
       >
         <>
-          {isLoading &&
-            skeletons.map((skeleton) => {
-              <DisplayCardSkeleton key={skeleton} />;
-            })}
           {animeList &&
             animeList.map((anime) => {
               return (
@@ -35,6 +33,10 @@ const AnimeGrid = () => {
                   </div>
                 </CardPopover>
               );
+            })}
+          {isLoading &&
+            skeletons.map((skeleton) => {
+              return <DisplayCardSkeleton key={skeleton} />;
             })}
         </>
       </SimpleGrid>

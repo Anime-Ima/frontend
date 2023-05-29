@@ -61,12 +61,15 @@ const CardPopover = ({ children, anime }: Props) => {
           <PopoverArrow />
 
           <PopoverBody>
-            <Heading as='h2' size='md'>
-              {anime.season.charAt(0).toUpperCase() +
-                anime.season.slice(1).toLowerCase() +
-                ' ' +
-                anime.seasonYear}
-            </Heading>
+            {anime.season && (
+              <Heading as='h2' size='md'>
+                {anime.season.charAt(0).toUpperCase() +
+                  anime.season.slice(1).toLowerCase() +
+                  ' ' +
+                  anime.seasonYear}
+              </Heading>
+            )}
+
             {anime.studios.edges && (
               <Text
                 mb={'6px'}

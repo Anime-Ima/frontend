@@ -2,6 +2,8 @@ interface FetchResponse {
     data: Data;
 }
 interface Data {
+    genres?: (string)[] | null;
+    tags?: TagsEntity[] | null;
     Page: Page;
 }
 interface Page {
@@ -74,3 +76,10 @@ interface Node {
     id: number;
     name: string;
 }
+interface TagsEntity {
+    name: string;
+    description: string;
+    category: string;
+    isAdult: boolean;
+}
+  

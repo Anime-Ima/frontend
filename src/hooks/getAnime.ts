@@ -44,9 +44,7 @@ const getAnime = () => {
             query: QUERY_ANIME,
             variables: {
               page: currentPage,
-              season: 'SUMMER',
-              seasonYear: 2023,
-              type: 'ANIME',
+              // ...searchFilters
             },
           })
           .then((res) => {

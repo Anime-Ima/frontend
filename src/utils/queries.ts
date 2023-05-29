@@ -1,5 +1,3 @@
-
-
 export const QUERY_ANIME = `
 query ($page: Int = 1, $id: Int, $type: MediaType, $isAdult: Boolean = false, $search: String, $format: [MediaFormat], $status: MediaStatus, $countryOfOrigin: CountryCode, $source: MediaSource, $season: MediaSeason, $seasonYear: Int, $year: String, $onList: Boolean, $yearLesser: FuzzyDateInt, $yearGreater: FuzzyDateInt, $episodeLesser: Int, $episodeGreater: Int, $durationLesser: Int, $durationGreater: Int, $chapterLesser: Int, $chapterGreater: Int, $volumeLesser: Int, $volumeGreater: Int, $licensedBy: [Int], $isLicensed: Boolean, $genres: [String], $excludedGenres: [String], $tags: [String], $excludedTags: [String], $minimumTagRank: Int, $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
     Page(page: $page, perPage: 20) {
@@ -67,3 +65,15 @@ query ($page: Int = 1, $id: Int, $type: MediaType, $isAdult: Boolean = false, $s
     }
   }
 `;
+
+export const QUERY_GENRE = `
+{
+  genres: GenreCollection
+  tags: MediaTagCollection {
+    name
+    description
+    category
+    isAdult
+  }
+}
+`
