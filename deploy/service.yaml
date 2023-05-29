@@ -5,7 +5,10 @@ metadata:
   namespace: animeima
   labels:
     app: animeima-ui
+  annotations:
+    description: animeima-ui service
 spec:
+  type: ClusterIP
   selector:
     app: animeima-ui
   ports:

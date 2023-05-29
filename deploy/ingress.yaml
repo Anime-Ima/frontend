@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: animeima-ui-ingress
   namespace: animeima
+  labels:
+    app: animeima-ui
   annotations:
     description: animeima-ui ingress
 spec:
