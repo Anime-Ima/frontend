@@ -60,10 +60,10 @@ jobs:
           push: true
           tags: registry.digitalocean.com/animeima/animeima-ui:${{ env.DOCKER_IMAGE_TAG }}
 
-      - name: Set k8s context
-        uses: Azure/k8s-set-context@v1
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          version: 'v1.19.0'
 
       - name: Apply Kubernetes Configurations
         run: |
