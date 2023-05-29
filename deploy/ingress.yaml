@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: animeima-ui-ingress
+  namespace: animeima
+  annotations:
+    description: animeima-ui ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.animeima.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: animeima-ui-service
+            port:
+              number: 80
