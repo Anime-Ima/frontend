@@ -1,42 +1,12 @@
-# ---- Base Node ----
-FROM node:16-alpine AS base
+FROM node:18-alpine3.17 as build
 WORKDIR /app
-
-# ---- Dependencies ----
-FROM base AS dependencies
-COPY package*.json ./
-RUN npm ci
-
-# ---- Test ----
-# if you have tests, you can run them using this stage
-# FROM dependencies AS test
-# COPY . .
-# RUN npm run test
-
-# ---- Build ----
-FROM dependencies AS build
-COPY . .
+COPY . /app
+RUN npm install
 RUN npm run build
 
-# ---- Release ----
-FROM base AS release
-# Create app directory
-WORKDIR /app
-
-# Install app dependencies
-COPY package*.json ./
-
-# Install production dependencies.
-RUN npm ci --only=production
-
-# Copy built app from the build stage
-COPY --from=build /app/dist ./dist
-
-# Change to non-root user
-USER node
-
-# Gracefully shutdown
-STOPSIGNAL SIGTERM
-
-# Start the app
-CMD [ "node", "dist/server.js" ]
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY --from=build /app/dist /var/www/html/
+EXPOSE 80
+CMD ["nginx","-g","daemon off;"]
