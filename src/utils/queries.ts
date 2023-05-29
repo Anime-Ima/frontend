@@ -28,6 +28,7 @@ query ($page: Int = 1, $id: Int, $type: MediaType, $isAdult: Boolean = false, $s
           month
           day
         }
+        trending
         bannerImage
         season
         seasonYear

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import {
   Input,
   Select,
@@ -9,36 +9,42 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { getFilters } from '../hooks/getFilters';
-import getAnime from '../hooks/getAnime';
 
-const SearchForm = () => {
+interface Props {
+  onSelectFilter: (filter: SearchFilters) => void;
+}
+
+const SearchForm = ({ onSelectFilter }: Props) => {
   const { genres, tags } = getFilters();
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedSeason, setSelectedSeason] = useState('');
-  const [selectedFormat, setSelectedFormat] = useState('');
-  const [selectedAiringStatus, setSelectedAiringStatus] = useState('');
+  //   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string | string[] | null>(
+    null
+  );
+
+  //   const [selectedYear, setSelectedYear] = useState('');
+  //   const [selectedSeason, setSelectedSeason] = useState('');
+  //   const [selectedFormat, setSelectedFormat] = useState('');
+  //   const [selectedAiringStatus, setSelectedAiringStatus] = useState('');
   //   const [selectedStreamingOn, setSelectedStreamingOn] = useState('');
   //   const [selectedSourceMaterial, setSelectedSourceMaterial] = useState('');
   const [isSticky, setIsSticky] = useState(false);
 
-  const handleSearch = () => {
-    const searchFilters = {
-      //   searchTerm,
-      //   genres: selectedGenre,
-      seasonYear: selectedYear,
-      season: selectedSeason,
-      //   format: selectedFormat,
-      //   status: selectedAiringStatus,
-      type: 'ANIME',
-      //   streamingOn: selectedStreamingOn,
-      //   sourceMaterial: selectedSourceMaterial,
-    };
-    // getAnime(searchFilters);
+  useEffect(() => {
+    console.log(selectedGenre);
 
-    // PUT QUERY FOR ANIME HERE
+    const searchFilters = {
+      genres: selectedGenre,
+    };
+    onSelectFilter(searchFilters);
+  }, [selectedGenre]);
+
+  const handleOptionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    let value: any = e.target.value;
+    if (e.target.value === '') {
+      value = null;
+    }
+    setSelectedGenre(value);
   };
 
   const handleScroll = () => {
@@ -80,7 +86,7 @@ const SearchForm = () => {
       pb={isSticky ? '2' : '0'}
       padding={'20px'}
     >
-      <FormControl>
+      {/* <FormControl>
         <FormLabel htmlFor='searchInput'>Search Term:</FormLabel>
         <Input
           type='text'
@@ -88,32 +94,35 @@ const SearchForm = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-      </FormControl>
+      </FormControl> */}
       <FormControl>
-        <FormLabel htmlFor='genreSelect'>Genre:</FormLabel>
+        <FormLabel htmlFor='genreSelect'>Genres</FormLabel>
         <Select
           id='genreSelect'
           placeholder='any'
-          value={selectedGenre}
-          onChange={(e) => setSelectedGenre(e.target.value)}
+          value={selectedGenre ?? undefined}
+          onChange={handleOptionChange}
         >
-          {genres?.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-          {/* <Text mt={5} mb={4}>
-            Tags
-          </Text> */}
-          {tags?.map((tag) => (
+          {genres?.map((genre) => {
+            if (genre === 'Hentai') {
+              return null; // Skip mapping the "Hentai" genre
+            }
+
+            return (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            );
+          })}
+          {/* {tags?.map((tag) => (
             <option key={tag.name} value={tag.name}>
               {tag.name}
             </option>
-          ))}
+          ))} */}
         </Select>
       </FormControl>
-      <FormControl>
-        <FormLabel htmlFor='yearSelect'>Year:</FormLabel>
+      {/* <FormControl>
+        <FormLabel htmlFor='yearSelect'>Year</FormLabel>
         <Select
           id='yearSelect'
           placeholder='any'
@@ -124,7 +133,7 @@ const SearchForm = () => {
         </Select>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor='seasonSelect'>Season:</FormLabel>
+        <FormLabel htmlFor='seasonSelect'>Season</FormLabel>
         <Select
           id='seasonSelect'
           placeholder='any'
@@ -138,7 +147,7 @@ const SearchForm = () => {
         </Select>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor='formatSelect'>Format:</FormLabel>
+        <FormLabel htmlFor='formatSelect'>Format</FormLabel>
         <Select
           id='formatSelect'
           placeholder='any'
@@ -154,7 +163,7 @@ const SearchForm = () => {
         </Select>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor='airingStatusSelect'>Airing Status:</FormLabel>
+        <FormLabel htmlFor='airingStatusSelect'>Airing Status</FormLabel>
         <Select
           id='airingStatusSelect'
           placeholder='any'
@@ -166,9 +175,9 @@ const SearchForm = () => {
           <option value='NOT_YET_RELEASED'>Not Yet Aired</option>
           <option value='CANCELLED'>Cancelled</option>
         </Select>
-      </FormControl>
+      </FormControl> */}
       {/* <FormControl>
-        <FormLabel htmlFor='streamingOnSelect'>Streaming On:</FormLabel>
+        <FormLabel htmlFor='streamingOnSelect'>Streaming On</FormLabel>
         <Select
           id='streamingOnSelect'
           value={selectedStreamingOn}
@@ -181,7 +190,7 @@ const SearchForm = () => {
         </Select>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor='sourceMaterialSelect'>Source Material:</FormLabel>
+        <FormLabel htmlFor='sourceMaterialSelect'>Source Material</FormLabel>
         <Select
           id='sourceMaterialSelect'
           value={selectedSourceMaterial}
@@ -193,7 +202,7 @@ const SearchForm = () => {
           <option value='ORIGINAL'>Original</option>
         </Select>
       </FormControl> */}
-      <Button onClick={handleSearch}>Search</Button>
+      {/* <Button onClick={handleSearch}>Search</Button> */}
     </Stack>
   );
 };

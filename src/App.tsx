@@ -1,9 +1,13 @@
 import { Grid, GridItem, Show } from '@chakra-ui/react';
+import { useState } from 'react';
 import AnimeGrid from './components/AnimeGrid';
 import NavBar from './components/NavBar';
 import SearchForm from './components/SearchForm';
 
 function App() {
+  const [selectedFilters, setSelectedFilter] = useState<SearchFilters | null>(
+    null
+  );
   return (
     <div>
       <Grid
@@ -21,10 +25,16 @@ function App() {
         </GridItem>
         <Show above='lg'>
           <GridItem area={'aside'}>
-            <SearchForm />
+            <SearchForm
+              onSelectFilter={(selectedFilters) =>
+                setSelectedFilter(selectedFilters)
+              }
+            />
           </GridItem>
         </Show>
-        <GridItem area={'main'}>{/* <AnimeGrid /> */}</GridItem>
+        <GridItem area={'main'}>
+          <AnimeGrid searchQuery={selectedFilters} />
+        </GridItem>
         <GridItem height={'300px'} area={'footer'}></GridItem>
       </Grid>
     </div>

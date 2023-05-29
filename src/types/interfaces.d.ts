@@ -18,6 +18,7 @@ interface PageInfo {
     hasNextPage: boolean;
 }
 interface Media {
+    trending: number
     id: number;
     title: Title;
     coverImage: CoverImage;
@@ -82,4 +83,15 @@ interface TagsEntity {
     category: string;
     isAdult: boolean;
 }
+interface SearchFilters {
+    // searchTerm?: string,
+    genres?: string | string[] | null | undefined;
+    // seasonYear: selectedYear,
+    // season: selectedSeason,
+    // format: selectedFormat,
+    // status: selectedAiringStatus,
+    // type: 'ANIME',
+    // streamingOn: selectedStreamingOn,
+    // sourceMaterial: selectedSourceMaterial,
+  }
   

@@ -4,10 +4,12 @@ import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
 import DisplayCardSkeleton from './DisplayCardSkeleton';
 
-// interface AnimeGridProps {}
+interface AnimeGridProps {
+  searchQuery: SearchFilters | null;
+}
 
-const AnimeGrid = () => {
-  const { animeList, error, isLoading } = getAnime();
+const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
+  const { animeList, error, isLoading } = getAnime(searchQuery);
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
@@ -27,9 +29,9 @@ const AnimeGrid = () => {
           {animeList &&
             animeList.map((anime) => {
               return (
-                <CardPopover key={+anime.id} anime={anime}>
+                <CardPopover key={anime.id} anime={anime}>
                   <div>
-                    <DisplayCard key={+anime.id} anime={anime} />
+                    <DisplayCard anime={anime} />
                   </div>
                 </CardPopover>
               );
