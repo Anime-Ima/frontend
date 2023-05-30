@@ -74,7 +74,7 @@ const CardPopover = ({ children, anime }: Props) => {
               <Text
                 mb={'6px'}
                 as='b'
-                color={`${anime.coverImage.color}`}
+                color={`${anime.coverImage.color || '#3E88D7'}`}
                 fontSize='sm'
               >
                 {anime.studios.edges?.map((edge) => {
@@ -102,7 +102,7 @@ const CardPopover = ({ children, anime }: Props) => {
               anime.genres?.map((genre) => (
                 <Tag
                   textTransform={'lowercase'}
-                  bg={anime.coverImage.color || '#D3E7F3'}
+                  bg={anime.coverImage.color || '#3E88D7'}
                   mb={'100px'}
                   padding={'5px'}
                   margin={'5px'}

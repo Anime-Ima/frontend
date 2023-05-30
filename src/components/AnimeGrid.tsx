@@ -28,19 +28,17 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
         pr={{ lg: '100px' }}
       >
         <>
-          {animeList.length > 0 ? (
-            animeList.map((anime) => {
-              return (
-                <CardPopover key={anime.id} anime={anime}>
-                  <div>
-                    <DisplayCard anime={anime} />
-                  </div>
-                </CardPopover>
-              );
-            })
-          ) : (
-            <Center>Nothing matches your search</Center>
-          )}
+          {animeList.length > 0
+            ? animeList.map((anime) => {
+                return (
+                  <CardPopover key={anime.id} anime={anime}>
+                    <div>
+                      <DisplayCard anime={anime} />
+                    </div>
+                  </CardPopover>
+                );
+              })
+            : !isLoading && <Center>Nothing matches your search</Center>}
           {isLoading &&
             skeletons.map((skeleton) => {
               return <DisplayCardSkeleton key={skeleton} />;

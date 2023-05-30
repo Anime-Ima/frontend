@@ -8,6 +8,9 @@ const DisplayCard = ({ anime }: Props) => {
   return (
     <Card
       borderRadius='10px'
+      _hover={{
+        color: `${anime.coverImage.color || '#3E88D7'}`,
+      }}
       overflow='hidden'
       height={{ base: '249px', md: '315px' }}
     >
