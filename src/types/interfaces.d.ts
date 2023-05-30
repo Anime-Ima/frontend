@@ -86,9 +86,9 @@ interface TagsEntity {
 interface SearchFilters {
     // searchTerm?: string,
     genres?: string | string[] | null | undefined;
-    // seasonYear: selectedYear,
-    // season: selectedSeason,
-    // format: selectedFormat,
+    seasonYear: string | null | undefined,
+    season: string | null | undefined,
+    format: string | null | undefined,
     // status: selectedAiringStatus,
     // type: 'ANIME',
     // streamingOn: selectedStreamingOn,

@@ -1,4 +1,4 @@
-import { SimpleGrid, Center } from '@chakra-ui/react';
+import { SimpleGrid, Center, Text } from '@chakra-ui/react';
 import getAnime from '../hooks/getAnime';
 import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
@@ -11,6 +11,8 @@ interface AnimeGridProps {
 const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
   const { animeList, error, isLoading } = getAnime(searchQuery);
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  console.log(animeList);
 
   return (
     <>
@@ -26,7 +28,7 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
         pr={{ lg: '100px' }}
       >
         <>
-          {animeList &&
+          {animeList.length > 0 ? (
             animeList.map((anime) => {
               return (
                 <CardPopover key={anime.id} anime={anime}>
@@ -35,7 +37,10 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
                   </div>
                 </CardPopover>
               );
-            })}
+            })
+          ) : (
+            <Center>Nothing matches your search</Center>
+          )}
           {isLoading &&
             skeletons.map((skeleton) => {
               return <DisplayCardSkeleton key={skeleton} />;

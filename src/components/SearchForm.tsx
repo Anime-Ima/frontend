@@ -11,40 +11,49 @@ import {
 import { getFilters } from '../hooks/getFilters';
 
 interface Props {
-  onSelectFilter: (filter: SearchFilters) => void;
+  onSelectFilter: (filter: SearchFilters | null) => void;
 }
 
 const SearchForm = ({ onSelectFilter }: Props) => {
   const { genres, tags } = getFilters();
 
-  //   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState<string | string[] | null>(
-    null
-  );
+  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+    genres: null,
+    seasonYear: null,
+    season: null,
+    format: null,
+  });
 
-  //   const [selectedYear, setSelectedYear] = useState('');
-  //   const [selectedSeason, setSelectedSeason] = useState('');
-  //   const [selectedFormat, setSelectedFormat] = useState('');
-  //   const [selectedAiringStatus, setSelectedAiringStatus] = useState('');
-  //   const [selectedStreamingOn, setSelectedStreamingOn] = useState('');
-  //   const [selectedSourceMaterial, setSelectedSourceMaterial] = useState('');
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
-    console.log(selectedGenre);
-
-    const searchFilters = {
-      genres: selectedGenre,
+    // Filter out properties with null values
+    const filteredFilters: Partial<SearchFilters> = {
+      ...(searchFilters.genres !== null && { genres: searchFilters.genres }),
+      ...(searchFilters.seasonYear !== null && {
+        seasonYear: searchFilters.seasonYear,
+      }),
+      ...(searchFilters.season !== null && { season: searchFilters.season }),
+      ...(searchFilters.format !== null && { format: searchFilters.format }),
     };
-    onSelectFilter(searchFilters);
-  }, [selectedGenre]);
 
-  const handleOptionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    let value: any = e.target.value;
-    if (e.target.value === '') {
-      value = null;
-    }
-    setSelectedGenre(value);
+    // Pass the filtered object to onSelectFilter
+    onSelectFilter(
+      Object.keys(filteredFilters).length > 0
+        ? (filteredFilters as SearchFilters)
+        : null
+    );
+  }, [searchFilters]);
+
+  const handleOptionChange = (
+    e: ChangeEvent<HTMLSelectElement>,
+    field: keyof SearchFilters
+  ) => {
+    const value = e.target.value || null;
+    setSearchFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value,
+    }));
   };
 
   const handleScroll = () => {
@@ -100,8 +109,8 @@ const SearchForm = ({ onSelectFilter }: Props) => {
         <Select
           id='genreSelect'
           placeholder='any'
-          value={selectedGenre ?? undefined}
-          onChange={handleOptionChange}
+          value={searchFilters.genres ?? ''}
+          onChange={(e) => handleOptionChange(e, 'genres')}
         >
           {genres?.map((genre) => {
             if (genre === 'Hentai') {
@@ -121,13 +130,13 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           ))} */}
         </Select>
       </FormControl>
-      {/* <FormControl>
+      <FormControl>
         <FormLabel htmlFor='yearSelect'>Year</FormLabel>
         <Select
           id='yearSelect'
           placeholder='any'
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
+          value={searchFilters.seasonYear ?? ''}
+          onChange={(e) => handleOptionChange(e, 'seasonYear')}
         >
           {yearOptions}
         </Select>
@@ -137,8 +146,8 @@ const SearchForm = ({ onSelectFilter }: Props) => {
         <Select
           id='seasonSelect'
           placeholder='any'
-          value={selectedSeason}
-          onChange={(e) => setSelectedSeason(e.target.value)}
+          value={searchFilters.season ?? ''}
+          onChange={(e) => handleOptionChange(e, 'season')}
         >
           <option value='WINTER'>Winter</option>
           <option value='SPRING'>Spring</option>
@@ -151,8 +160,8 @@ const SearchForm = ({ onSelectFilter }: Props) => {
         <Select
           id='formatSelect'
           placeholder='any'
-          value={selectedFormat}
-          onChange={(e) => setSelectedFormat(e.target.value)}
+          value={searchFilters.format ?? ''}
+          onChange={(e) => handleOptionChange(e, 'format')}
         >
           <option value='TV'>TV Show</option>
           <option value='MOVIE'>Movie</option>
@@ -162,7 +171,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           <option value='ONA'>ONA</option>
         </Select>
       </FormControl>
-      <FormControl>
+      {/* <FormControl>
         <FormLabel htmlFor='airingStatusSelect'>Airing Status</FormLabel>
         <Select
           id='airingStatusSelect'

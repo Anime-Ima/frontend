@@ -45,6 +45,8 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
       window.scrollTo(0, 0); // Scroll to top of the component
     }
 
+    console.log(searchQuery)
+
     apiClient
       .post<FetchResponse>("/", {
         signal: controller.signal,
@@ -56,10 +58,11 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
             "TRENDING_DESC",
             "POPULARITY_DESC"
           ],
-          ...(searchQuery?.genres !== null && { ...searchQuery }),
+          ...(searchQuery !== null && { ...searchQuery }),
         },
       })
       .then((res) => {
+
         if (animeList.length === 0) {
           setAnimeList(res.data.data.Page.media);
         } 
