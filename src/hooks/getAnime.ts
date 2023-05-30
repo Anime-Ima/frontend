@@ -9,7 +9,8 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
   const [hasNextPage, setHasNextPage] = useState<PageInfo["hasNextPage"]>(true);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [prevSearchQuery, setPrevSearchQuery] = useState<SearchFilters | null>(null);
+  
   let scrollTimeout: ReturnType<typeof setTimeout>;
 
   // Navigate to the next page if it exists, and subsequently execute the query again once scrolled to the bottom of available data.
@@ -37,11 +38,12 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
     const controller = new AbortController();
     setIsLoading(true);
 
-    // if (searchQuery) {
-    //   // Clear animeList state when searchQuery has data
-    //   setAnimeList([]);
-    //   setCurrentPage(1);
-    // }
+    if (searchQuery && searchQuery !== prevSearchQuery) {
+      setCurrentPage(1); // Set current page to 1 for new search query
+      setAnimeList([]); // Clear anime list for new search query
+      setPrevSearchQuery(searchQuery); // Update previous search query
+      window.scrollTo(0, 0); // Scroll to top of the component
+    }
 
     apiClient
       .post<FetchResponse>("/", {
@@ -60,18 +62,13 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
       .then((res) => {
         if (animeList.length === 0) {
           setAnimeList(res.data.data.Page.media);
-        }
-        //  else if (searchQuery) {
-        //   setAnimeList([])
-        //   setAnimeList(res.data.data.Page.media);
-        // } 
+        } 
         else {
           setAnimeList((prevAnimeList) => [
             ...prevAnimeList,
             ...res.data.data.Page.media,
           ]);
         }
-        // setAnimeList(res.data.data.Page.media);
         setHasNextPage(res.data.data.Page.pageInfo.hasNextPage);
         setIsLoading(false);
       })
