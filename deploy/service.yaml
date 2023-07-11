@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: animeima-ui
+  namespace: animeima
+  labels:
+    app: animeima-ui
+  annotations:
+    description: animeima-ui service
+spec:
+  type: ClusterIP
+  selector:
+    app: animeima-ui
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

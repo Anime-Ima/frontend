@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: animeima-ui
+  namespace: animeima
+  labels:
+    app: animeima-ui
+  annotations:
+    description: animeima-ui deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: animeima-ui
+  template:
+    metadata:
+      labels:
+        app: animeima-ui
+    spec:
+      containers:
+      - name: animeima-ui
+        image: registry.digitalocean.com/animeima/animeima-ui:latest
+        ports:
+        - containerPort: 8080
