@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, CanceledError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import apiClient from "../services/api-client";
 import { QUERY_ANIME } from "../utils/queries";
 
@@ -14,25 +14,25 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
   let scrollTimeout: ReturnType<typeof setTimeout>;
 
   // Navigate to the next page if it exists, and subsequently execute the query again once scrolled to the bottom of available data.
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const isScrolledToBottom =
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.scrollHeight - 100;
-
+  
     if (isScrolledToBottom && hasNextPage) {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         setCurrentPage((prevPage) => prevPage + 1);
       }, 200);
     }
-  };
-
+  }, [hasNextPage]);
+  
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -72,8 +72,10 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
             ...res.data.data.Page.media,
           ]);
         }
-        setHasNextPage(res.data.data.Page.pageInfo.hasNextPage);
+        setHasNextPage((prevHasNextPage) => res.data.data.Page.pageInfo.hasNextPage);
         setIsLoading(false);
+        console.log("Has next page:", res.data.data.Page.pageInfo.hasNextPage);
+
       })
       .catch((err) => {
         if (err instanceof CanceledError) return;

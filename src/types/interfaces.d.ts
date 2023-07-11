@@ -89,7 +89,7 @@ interface SearchFilters {
     seasonYear: string | null | undefined,
     season: string | null | undefined,
     format: string | null | undefined,
-    // status: selectedAiringStatus,
+    status: string | null | undefined,
     // type: 'ANIME',
     // streamingOn: selectedStreamingOn,
     // sourceMaterial: selectedSourceMaterial,

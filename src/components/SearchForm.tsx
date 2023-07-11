@@ -22,6 +22,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
     seasonYear: null,
     season: null,
     format: null,
+    status: null,
   });
 
   const [isSticky, setIsSticky] = useState(false);
@@ -35,6 +36,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
       }),
       ...(searchFilters.season !== null && { season: searchFilters.season }),
       ...(searchFilters.format !== null && { format: searchFilters.format }),
+      ...(searchFilters.status !== null && { status: searchFilters.status }),
     };
 
     // Pass the filtered object to onSelectFilter
@@ -171,20 +173,20 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           <option value='ONA'>ONA</option>
         </Select>
       </FormControl>
-      {/* <FormControl>
+      <FormControl>
         <FormLabel htmlFor='airingStatusSelect'>Airing Status</FormLabel>
         <Select
           id='airingStatusSelect'
           placeholder='any'
-          value={selectedAiringStatus}
-          onChange={(e) => setSelectedAiringStatus(e.target.value)}
+          value={searchFilters.status ?? ''}
+          onChange={(e) => handleOptionChange(e, 'status')}
         >
-          <option value='CURRENT'>Currently Airing</option>
+          <option value='RELEASING'>Currently Airing</option>
           <option value='FINISHED'>Finished Airing</option>
           <option value='NOT_YET_RELEASED'>Not Yet Aired</option>
           <option value='CANCELLED'>Cancelled</option>
         </Select>
-      </FormControl> */}
+      </FormControl>
       {/* <FormControl>
         <FormLabel htmlFor='streamingOnSelect'>Streaming On</FormLabel>
         <Select
