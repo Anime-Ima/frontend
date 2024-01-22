@@ -12,7 +12,7 @@
     "e2e": "echo \"No e2e specified\" && exit 0"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.8.0",
+    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.1",
