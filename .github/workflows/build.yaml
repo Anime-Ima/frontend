@@ -7,9 +7,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  DOCKER_IMAGE_TAG: latest
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -30,54 +27,3 @@ jobs:
 
       - name: Run Tests
         run: npm test
-
-  deploy:
-    needs: test
-    if: github.ref == 'refs/heads/main'  # This job will only run if the branch is 'main'
-    runs-on: ubuntu-latest
-    env:
-      service: animeima-ui
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Login to DigitalOcean Container Registry
-        run: |
-          doctl registry login --expiry-seconds 600
-
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: registry.digitalocean.com/animeima/animeima-ui:${{ env.DOCKER_IMAGE_TAG }}
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'v1.19.0'
-
-      - name: Apply Kubernetes Configurations
-        run: |
-          doctl kubernetes cluster kubeconfig save afff92fb-0204-4a39-b77b-494bfc1b62fd
-          kubectl config use-context do-nyc1-animeima-prod
-          kubectl apply -f ./deploy/deployment.yaml
-          kubectl apply -f ./deploy/service.yaml
-          kubectl apply -f ./deploy/ingress.yaml
-
-      - name: Update Deployment Image
-        run: |
-          kubectl set image deployment/${service} ${service}=registry.digitalocean.com/animeima/animeima-ui:${{ env.DOCKER_IMAGE_TAG }} -n animeima
-
-      - name: Trigger Deployment
-        run: |
-          kubectl patch deployment ${service} -p \
-          "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}" -n animeima
