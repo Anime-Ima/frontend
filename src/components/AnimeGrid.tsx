@@ -38,7 +38,7 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
                   </CardPopover>
                 );
               })
-            : !isLoading && <Center>Nothing matches your search</Center>}
+            : !isLoading && <Center>Nothing matches your search!</Center>}
           {isLoading &&
             skeletons.map((skeleton) => {
               return <DisplayCardSkeleton key={skeleton} />;
