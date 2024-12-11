@@ -12,11 +12,10 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
   const { animeList, error, isLoading } = getAnime(searchQuery);
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  console.log(animeList);
-
   return (
     <>
       {error && <Center>Error: {error}</Center>}
+      <Center>
       <SimpleGrid
         spacingY={{ base: 5, sm: 8, md: 4 }}
         spacingX={{ base: 3, sm: 5, md: 4 }}
@@ -24,8 +23,9 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
           base: '110px',
           sm: '186px',
         }}
+        maxWidth={{base: '56%'}}
         padding={{ base: '20px' }}
-        pr={{ lg: '100px' }}
+        // pr={{ lg: '100px' }}
       >
         <>
           {animeList.length > 0
@@ -45,6 +45,7 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
             })}
         </>
       </SimpleGrid>
+      </Center>
     </>
   );
 };

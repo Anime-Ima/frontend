@@ -87,7 +87,8 @@ const SearchForm = ({ onSelectFilter }: Props) => {
   return (
     <Stack
       spacing={4}
-      maxWidth='500px'
+      direction="row"
+      maxWidth='56%'
       mx='auto'
       position={isSticky ? 'sticky' : 'static'}
       top={isSticky ? '0' : ''}
@@ -106,6 +107,8 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </FormControl> */}
+
+      {/* GENRE */}
       <FormControl>
         <FormLabel htmlFor='genreSelect'>Genres</FormLabel>
         <Select
@@ -132,6 +135,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           ))} */}
         </Select>
       </FormControl>
+      {/* YEARS */}
       <FormControl>
         <FormLabel htmlFor='yearSelect'>Year</FormLabel>
         <Select
@@ -143,6 +147,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           {yearOptions}
         </Select>
       </FormControl>
+      {/* SEASON */}
       <FormControl>
         <FormLabel htmlFor='seasonSelect'>Season</FormLabel>
         <Select
@@ -157,6 +162,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           <option value='FALL'>Fall</option>
         </Select>
       </FormControl>
+      {/* FORMAT */}
       <FormControl>
         <FormLabel htmlFor='formatSelect'>Format</FormLabel>
         <Select
@@ -173,6 +179,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           <option value='ONA'>ONA</option>
         </Select>
       </FormControl>
+      {/* AIRING STATUS */}
       <FormControl>
         <FormLabel htmlFor='airingStatusSelect'>Airing Status</FormLabel>
         <Select
@@ -187,6 +194,7 @@ const SearchForm = ({ onSelectFilter }: Props) => {
           <option value='CANCELLED'>Cancelled</option>
         </Select>
       </FormControl>
+
       {/* <FormControl>
         <FormLabel htmlFor='streamingOnSelect'>Streaming On</FormLabel>
         <Select

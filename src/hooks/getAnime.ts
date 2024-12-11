@@ -45,7 +45,9 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
       window.scrollTo(0, 0); // Scroll to top of the component
     }
 
-    console.log(searchQuery)
+    console.log("search query", searchQuery)
+    //console.log("Current Search Query Status:", searchQuery?.season);
+
 
     apiClient
       .post<FetchResponse>("/", {
@@ -54,12 +56,18 @@ const getAnime = (searchQuery: SearchFilters | null = null) => {
         variables: {
           page: currentPage,
           type: "ANIME",
-          sort: [
-            "TRENDING_DESC",
-            "POPULARITY_DESC"
-          ],
-          ...(searchQuery !== null && { ...searchQuery }),
-        },
+          sort: ["TRENDING_DESC", "POPULARITY_DESC"],
+          ...(searchQuery !== null && {
+            ...searchQuery,
+            genres: searchQuery.genres
+              ? Array.isArray(searchQuery.genres)
+                ? searchQuery.genres
+                : [searchQuery.genres] // Convert string to array
+              : undefined,
+              status: searchQuery.status || undefined,
+              seasonYear: searchQuery.seasonYear || undefined,
+          }),
+        },        
       })
       .then((res) => {
 
