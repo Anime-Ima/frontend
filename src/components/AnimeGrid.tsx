@@ -1,4 +1,4 @@
-import { SimpleGrid, Center, Text } from '@chakra-ui/react';
+import { SimpleGrid, Container, Text } from '@chakra-ui/react';
 import getAnime from '../hooks/getAnime';
 import DisplayCard from './DisplayCard';
 import CardPopover from './CardPopover';
@@ -14,20 +14,17 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
 
   return (
     <>
-      {error && <Center>Error: {error}</Center>}
-      <Center>
-      <SimpleGrid
-        spacingY={{ base: 5, sm: 8, md: 4 }}
-        spacingX={{ base: 3, sm: 5, md: 4 }}
-        minChildWidth={{
-          base: '110px',
-          sm: '186px',
-        }}
-        maxWidth={{base: '56%'}}
-        padding={{ base: '20px' }}
-        // pr={{ lg: '100px' }}
-      >
-        <>
+      {error && <Container centerContent>Error: {error}</Container>}
+      <Container centerContent maxWidth="1480px" width="100%" padding="20px">
+        <SimpleGrid
+          width={'100%'}
+          spacingY={{ base: 5, sm: 8, md: 4 }}
+          spacingX={{ base: 3, sm: 5, md: 4 }}
+          minChildWidth={{
+            base: '110px',
+            sm: '186px',
+          }}
+        >
           {animeList.length > 0
             ? animeList.map((anime) => {
                 return (
@@ -38,16 +35,16 @@ const AnimeGrid = ({ searchQuery }: AnimeGridProps) => {
                   </CardPopover>
                 );
               })
-            : !isLoading && <Center>Nothing matches your search!</Center>}
+            : !isLoading && <Text>Nothing matches your search!</Text>}
           {isLoading &&
             skeletons.map((skeleton) => {
               return <DisplayCardSkeleton key={skeleton} />;
             })}
-        </>
-      </SimpleGrid>
-      </Center>
+        </SimpleGrid>
+      </Container>
     </>
   );
 };
 
 export default AnimeGrid;
+
